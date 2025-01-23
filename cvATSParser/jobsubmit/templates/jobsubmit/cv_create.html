@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    {% load static from static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Submit Job</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <script src="{% static 'jobsubmit/js/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'jobsubmit/js/jquery.formset.js' %}"></script>
+        <script src="{% static 'jobsubmit/js/cv_create.js' %}"></script>
+    </head>
+<body>
+    <div class="container mt-5">
+        <h1>Enter Your CV Information!</h1>
+        <form method="post">
+            {% csrf_token %}
+    
+            <!-- CV Name Form -->
+            <div class="mb-3">
+                {{ form_name.as_p }}
+            </div>
+    
+            <!-- Header Information Formset -->
+            <fieldset>
+                <legend>Header Information</legend>
+            <div class="mb-3">
+                {{ formset_header.management_form }}
+                {% for header in formset_header %}
+                    <div class="header-instance job-form border p-3 mb-3">
+                        {{ header.as_p }}
+                    </div>
+                {% endfor %}
+                
+            </div>
+            </fieldset>
+    
+            <!-- Jobs Information Formset -->
+            <h4>Jobs</h4>
+            <div id="job-forms">
+                {{ formset_experience.management_form }}
+                {% for form in formset_experience %}
+                    <div class="experience-instance job-form border p-3 mb-3">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Education Information Formset -->
+            <h4>Education Records</h4>
+            <div id="education-forms">
+                {{ formset_education.management_form }}
+                {% for form in formset_education %}
+                    <div class="education-instance job-form border p-3 mb-3">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Project Information Formset-->
+            <h4>Projects</h4>
+            <div id="project-forms">
+                {{ formset_project.management_form }}
+                {% for form in formset_project %}
+                    <div class="project-instance job-form border p-3 mb-3">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Language Information Formset -->
+            <h4>Languages</h4>
+            <div id="language-forms">
+                {{ formset_language.management_form }}
+                {% for form in formset_language %}
+                    <div class="language-instance job-form border p-3 mb-3">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Certification Information Formset -->
+            <h4>Certifications</h4>
+            <div id="certification-forms">
+                {{ formset_certification.management_form }}
+                {% for form in formset_certification %}
+                    <div class="certification-instance job-form border p-3 mb-3">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Hard Skill Information Formset -->
+            <h4>Hard Skills</h4>
+            <div id="hard-skill-forms">
+                {{ formset_hard_skill.management_form }}
+                {% for form in formset_hard_skill %}
+                    <div class="hard-skill-instance job-form border p-3 mb-3">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+    
+    <script src="{% static 'jobsubmit/js/cv_create.js' %}"></script>
+</body>
+
+
+</html>

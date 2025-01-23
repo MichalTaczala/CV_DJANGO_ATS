@@ -1,0 +1,324 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 0, 0} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Michał Taczała's CV},
+    pdfauthor={Michał Taczała},
+    pdfcreator={Michał Taczała},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+% Some settings:
+\raggedright
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\pagenumbering{gobble} % no page numbering
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0 cm + 0.00001 cm
+    }{
+        0 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in September 2024}\hspace{\widthof{Last updated in September 2024}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{$|$}
+
+    \begin{header}
+        \fontsize{25 pt}{25 pt}\selectfont Michał Taczała
+
+        \vspace{5 pt}
+
+        \normalsize
+        Warsaw/Lublin, Poland \kern 5.0 pt \AND \kern 5.0 pt +48 727 777 060 \kern 5.0 pt \AND \kern 5.0 pt taczalamichal5@gmail.com \kern 5.0 pt \AND \kern 5.0 pt https://www.linkedin.com/in/micha\%C5\%82-tacza\%C5\%82a-8aa13a244/ \kern 5.0 pt \AND \kern 5.0 pt https://github.com/MichalTaczala        
+    \end{header}
+
+    \vspace{5 pt - 0.3 cm}
+
+% Summary Section
+\section*{Summary}
+\noindent Self-motivated Python Developer with a strong background in creating and improving AI models. Passionate about enhancing applications and optimizing processes within challenging environments. Excellent problem-solving abilities and adept at collaborating in a team-oriented atmosphere. I am committed to continuous learning in the fields of AI and machine learning. Looking to leverage my experience in REST API development, data management, and model implementation to contribute effectively to innovative projects.
+
+\vspace{10pt}
+
+% Education Section
+\section*{Education}
+
+\begin{paracol}{2}
+\noindent\textbf{Warsaw University of Technology}, BSc in Software Control and Robotics \switchcolumn
+\hfill 2019-10-01 -- 2023-06-30
+\end{paracol}
+
+\vspace{5pt}
+
+\begin{itemize}
+    
+    \item Achieved a GPA of 4.5/5 while acquiring knowledge in automation, robotics, and advanced software development.
+    
+    \item Developed skills in Python for robotics and artificial intelligence through extensive coursework and practical projects.
+    
+    \item Participated in a robotics competition programming a semi-autonomous RC car, winning third place.
+    
+\end{itemize}
+
+\begin{paracol}{2}
+\noindent\textbf{Warsaw University of Technology}, MSc in Data Science \switchcolumn
+\hfill 2023-10-01 -- 2025-06-30
+\end{paracol}
+
+\vspace{5pt}
+
+\begin{itemize}
+    
+    \item Currently pursuing a Master's degree focused on machine learning, deep learning, and big data analytics, with an emphasis on AI-driven projects.
+    
+    \item Engaged with Python extensively, gaining hands-on experience with popular ML libraries such as NumPy, pandas, and PyTorch.
+    
+\end{itemize}
+
+\begin{paracol}{2}
+\noindent\textbf{Korea Advanced Institute of Science and Technology(KAIST)}, Exchange AI MSc Student \switchcolumn
+\hfill 2024-08-26 -- 2024-12-20
+\end{paracol}
+
+\vspace{5pt}
+
+\begin{itemize}
+    
+    \item Studied AI and ML at a leading technology university in South Korea, collaborating with international peers on various projects using Python and PyTorch.
+    
+    \item Advanced knowledge in natural language processing and computer vision.
+    
+\end{itemize}
+
+
+% Experience Section
+\section*{Experience}
+
+\begin{paracol}{2}
+\noindent\textbf{Junior Software Developer}, Sciamus \switchcolumn
+\hfill 2022-05-01 -- 2022-12-31
+\end{paracol}
+
+\vspace{5pt}
+
+\begin{itemize}
+    
+    \item Worked for 7 months developing a Java backend application for managing sim cards, with a focus on enhancing system functionalities.
+    
+    \item Collaborated in a microservice architecture, utilizing GitLab CI/CD pipelines and Docker for application deployment.
+    
+    \item Engaged in agile development cycles with bi-weekly sprints, ensuring continuous client communication and satisfaction.
+    
+\end{itemize}
+
+\begin{paracol}{2}
+\noindent\textbf{Mobile Application Developer}, IT Touch \switchcolumn
+\hfill 2023-01-01 -- 2024-07-31
+\end{paracol}
+
+\vspace{5pt}
+
+\begin{itemize}
+    
+    \item Developed a mobile application for stock and crypto trading using Flutter in an agile team of 5 developers for 18 months.
+    
+    \item Responsible for the entire development process from design to deployment, fostering strong teamwork and communication.
+    
+\end{itemize}
+
+
+% Projects Section
+\section*{Projects}
+
+\noindent\textbf{CV ATS Parser Django}
+
+\vspace{5pt}
+\begin{itemize}
+    
+    \item Developed a Django web application for parsing CVs and job descriptions, generating ATS-compatible JSON formats.
+    
+    \item Used Google Cloud Platform for hosting and integrated OpenAI API for enhanced natural language processing capabilities.
+    
+\end{itemize}
+
+\noindent\textbf{Graph Finding Reaction Direction}
+
+\vspace{5pt}
+\begin{itemize}
+    
+    \item Created a model using Python and PyTorch to predict reaction directions based on dataset analysis, employing graph-related ML algorithms.
+    
+\end{itemize}
+
+\noindent\textbf{Deep Learning for Image Recognition}
+
+\vspace{5pt}
+\begin{itemize}
+    
+    \item Developed models for image recognition and generation utilizing deep learning techniques with PyTorch.
+    
+\end{itemize}
+
+\noindent\textbf{NLP for Retrieving Important Information}
+
+\vspace{5pt}
+\begin{itemize}
+    
+    \item Implemented Python-based solutions to extract critical information from documents, showcasing natural language processing capabilities.
+    
+\end{itemize}
+
+
+% Technologies Section
+\section*{Skills}
+\noindent\textbf{Languages:} 
+English Advanced (C1), Polish Native, Japanese Intermediate (N3)
+\vspace{5pt}
+
+\noindent\textbf{Hard skills:}
+Python, REST API, Linux, SQL, Docker, Machine Learning, Deep Learning, NLP, Computer Vision, Big Data Analytics
+\vspace{5pt}
+
+\noindent\textbf{Soft skills:}
+Strong communication skills, Ability to work independently, Team-oriented with good collaboration skills, Adaptability to learn and grow in fast-paced environments, Problem-solving aptitude, Cultural awareness from diverse educational experiences
+\vspace{5pt}
+
+\noindent\textbf{Certifications:}
+Academic Proficiency in English C1 - 06.2024, Japanese Language Proficiency Test N3 - 06.2022, GCP Cloud Associate Engineer - 06.2023
+\end{document}
