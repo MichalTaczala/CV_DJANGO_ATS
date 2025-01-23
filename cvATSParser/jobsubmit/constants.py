@@ -1,4 +1,4 @@
-TEXT_TO_CHAT="""I will provide user_info and a job_description.
+TEXT_TO_CHAT = """I will provide user_info and a job_description.
 Your task is to generate a JSON format CV based on the provided information.
 The CV should be tailored to pass ATS (Applicant Tracking Systems) by ensuring keywords and phrases from the job description are incorporated.
 Keep the facts unchanged — such as the technologies used in the user’s experience.
@@ -18,7 +18,7 @@ RESPONSE_JSON = {
         "+48 727 777 060",
         "taczalamichal5@gmail.com",
         "https://www.linkedin.com/in/micha\%C5\%82-tacza\%C5\%82a-8aa13a244/",
-        "https://github.com/MichalTaczala"
+        "https://github.com/MichalTaczala",
     ],
     "educations": [
         {
@@ -49,7 +49,7 @@ RESPONSE_JSON = {
             "degree": "Exchange AI MSc student",
             "start_date": "2024-08-25",
             "end_date": "2024-12-20",
-        }
+        },
     ],
     "workExperience": [
         {
@@ -61,7 +61,7 @@ RESPONSE_JSON = {
                 "Developed a Java mobile application for tracking personal finances",
                 "Implemented a RESTful API using Django and Django REST framework",
                 "Utilized SQLite for local data storage and Firebase for cloud storage",
-            ]
+            ],
         },
         {
             "job_name": "Software Developer",
@@ -71,8 +71,7 @@ RESPONSE_JSON = {
             "details": [
                 "Developed a Flutter mobile application for stock trading",
                 "Integrated third-party APIs for real-time stock data and analytics",
-            ]
-
+            ],
         },
     ],
     "projects": [
@@ -82,14 +81,14 @@ RESPONSE_JSON = {
                 "Developed a Java mobile application for tracking personal finances",
                 "Implemented a RESTful API using Django and Django REST framework",
                 "Utilized SQLite for local data storage and Firebase for cloud storage",
-            ]
+            ],
         },
         {
             "project_name": "Stock Trading App",
             "details": [
                 "Developed a Flutter mobile application for stock trading",
                 "Integrated third-party APIs for real-time stock data and analytics",
-            ]
+            ],
         },
     ],
     "skills": [
@@ -127,7 +126,7 @@ RESPONSE_JSON = {
 CURRENT_USER_DATA = {
     "educations": [
         {
-            "degree": "BSc in Software Control and Robotics",        
+            "degree": "BSc in Software Control and Robotics",
             "start_date": "2019-10-01",
             "end_date": "2023-06-30",
             "details": "I achieved GPA of 4.5/5. I learned a lot on automation, robotics, and software development. I learned python for robotics, and artificial inteligence, because i took many extra courses on ML and AI. I attended the robotics student association where i was programming in python semi-autonomous rc car for competition where we achieved the third place. I learned git and data stuctures and algorithms as well. I also learned java for backend programming and SQL for relational databases. I learned flutter here creating a project for blind people. ",
@@ -143,7 +142,7 @@ CURRENT_USER_DATA = {
             "start_date": "2024-08-25",
             "end_date": "2024-12-20",
             "details": "I was an exchange student in South Korea on the best university of technology in this country. I was studying AI and ML. I was learning a lot about korean culture. I was also working on projects with international students. I was using python and pytroch for many projects. I improved my language skills and gained a lot of knowledge on computer vision, nlp, and machine learning in general.",
-        }
+        },
     ],
     "workExperience": [
         {
@@ -153,7 +152,6 @@ CURRENT_USER_DATA = {
         {
             "how_long": "1 year and 7 months",
             "details": "I was mainly responsible for developing a mobile app in flutter. I was building a stock and crypto trading application for a startup client. I learned flutter with its common libraries like bloc, stripe, http, firebase. I was responsible for the whole app development process from the design to the deployment. I was working with 4 other mobile developers and we were working in agile.",
-
         },
     ],
     "projects": [
@@ -162,16 +160,13 @@ CURRENT_USER_DATA = {
             "details": [
                 "I created a Django web application that parses CVs and job descriptions to generate a JSON format CV tailored for ATS",
                 "Used GCP for hosting and OpenAI API for natural language processing",
-            ]
+            ],
         },
         {
             "project_name": "Airbnb for Garages",
             "details": [
-                "Developed a Flutter mobile application for renting out garages and parking spaces",
-                "Hosted app on Google Cloud Platform using Firebase for authentication and Cloud SQL for data storage",
-                "Implemented geolocation services and payment processing using Stripe API",
-                "Backend developed in Python Flask"
-            ]
+                "Developed a Flutter mobile application for renting out garages and parking spaces, Hosted app on Google Cloud Platform using Firebase for authentication and Cloud SQL for data storage, Implemented geolocation services and payment processing using Stripe API, Designed SQL schema"
+            ],
         },
         {
             "project_name:": "Graph finding reaction direction",
@@ -179,7 +174,7 @@ CURRENT_USER_DATA = {
                 "Project was about finding the correct prediction of the reaction for the given dataset",
                 "Used python, numpy, pytorch",
                 "Used graph-related ml algorithms like graph neural networks or mlp",
-            ]
+            ],
         },
         {
             "project_name": "Big Data Analytics",
@@ -211,8 +206,8 @@ CURRENT_USER_DATA = {
                 "Used many models for predicting if the customer will use the marketing offer",
                 "Tested different solutions like SVM, NB, QDA, Random Forest",
                 "Selected important features using Boruta algorithm",
-            ]
-        }
+            ],
+        },
     ],
     "languages": [
         "English Advanced (C1)",

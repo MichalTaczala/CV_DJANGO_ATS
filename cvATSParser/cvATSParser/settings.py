@@ -28,6 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+AUTH_USER_MODEL = "jobsubmit.CustomUser"
+LOGIN_REDIRECT_URL = "/dashboard/"  # Redirect here after login
+LOGOUT_REDIRECT_URL = "/login/"  # Redirect here after logout
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,12 +55,14 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CASHE_MIDDLEWARE_SECONDS = 0
+CASHE_MIDDLEWARE_KEY_PREFIX = ""
 ROOT_URLCONF = "cvATSParser.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "jobsubmit/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

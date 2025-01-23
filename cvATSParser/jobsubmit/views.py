@@ -1,11 +1,17 @@
 import os
-from django.forms import modelformset_factory
-from django.http import FileResponse, JsonResponse
-from django.shortcuts import redirect, render
 import json
-from django.views import View
 
-from .open_ai_service import OpenAIService
+from django.conf import settings
+from django.http import FileResponse, JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.forms import modelformset_factory
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views import View
+from django.views.generic import FormView
 
 from .models import (
     CVHeaderInfo,
@@ -17,7 +23,6 @@ from .models import (
     CVHardSkill,
     CV,
 )
-
 from .forms import (
     CVNameForm,
     CVHeaderInfoForm,
@@ -28,8 +33,10 @@ from .forms import (
     CertificationForm,
     HardSkillForm,
     JobRecruitmentDescription,
+    RegistrationForm,
+    EmailAuthenticationForm,
 )
-
+from .open_ai_service import OpenAIService
 from .services import (
     transform_job_description,
     transform_education_record,
@@ -62,7 +69,7 @@ def create_formsets(extra=1, add_prefix=False):
     }
 
 
-class CVCreateView(View):
+class CVCreateView(LoginRequiredMixin, View):
     def get(self, request):
         formsets = create_formsets(add_prefix=True)
         context = self.build_context(formsets)
@@ -74,7 +81,7 @@ class CVCreateView(View):
         formsets_instances = self.initialize_formsets(formsets, request.POST)
 
         if self.validate_formsets(cv_form, formsets_instances):
-            _ = self.save_cv_data(cv_form, formsets_instances)
+            _ = self.save_cv_data(cv_form, formsets_instances, request)
             return redirect("/addJobDescription")
 
         context = self.build_context(formsets_instances, cv_form)
@@ -87,10 +94,11 @@ class CVCreateView(View):
         )
         return context
 
-    def save_cv_data(self, cv_form, formsets_instances):
+    def save_cv_data(self, cv_form, formsets_instances, request):
         """Save CV and associated data."""
         cv = CV.objects.create(full_name=cv_form.cleaned_data["full_name"])
         cv_data = {
+            "full_name": cv_form.cleaned_data["full_name"],
             "header_info": [
                 form.cleaned_data["header_info"]
                 for form in formsets_instances["header"]
@@ -141,6 +149,7 @@ class CVCreateView(View):
             ],
         }
         cv.data = cv_data
+        cv.user = request.user
         cv.save()
         return cv
 
@@ -159,27 +168,24 @@ class CVCreateView(View):
         return all(validities)
 
 
-class AddJobDescView(View):
+class AddJobDescView(LoginRequiredMixin, View):
     def get(self, request):
         return render(
             request,
             "jobsubmit/add_job_description.html",
             {
                 "job_desc_form": JobRecruitmentDescription(),
-                "name_form": CVNameForm(),
             },
         )
 
     def post(self, request):
         """Handle POST request to process job description."""
         job_desc_form = JobRecruitmentDescription(request.POST)
-        name_form = CVNameForm(request.POST)
 
-        if job_desc_form.is_valid() and name_form.is_valid():
-            name_from_user = name_form.cleaned_data["full_name"]
+        if job_desc_form.is_valid():
             job_desc = job_desc_form.cleaned_data["description"]
 
-            cv = CV.objects.filter(full_name=name_from_user).last()
+            cv = CV.objects.filter(user=request.user).order_by("-created_at").first()
             if not cv:
                 return JsonResponse({"error": "CV not found."}, status=404)
 
@@ -235,3 +241,32 @@ class AddJobDescView(View):
         if not os.path.exists(template_file):
             raise FileNotFoundError("Template file not found.")
         return template_file
+
+
+class EmailLoginView(LoginView):
+    template_name = "jobsubmit/login.html"
+    form_class = EmailAuthenticationForm
+
+
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy("login")  # Redirect after logout
+
+
+class RegistrationView(FormView):
+    template_name = "jobsubmit/registration.html"
+    form_class = RegistrationForm
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)  # Log the user in after registration
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Dynamically fetch LOGIN_REDIRECT_URL from settings
+        return settings.LOGIN_REDIRECT_URL
+
+
+@login_required
+def dashboard(request):
+    a = request.user
+    return render(request, "jobsubmit/dashboard.html")

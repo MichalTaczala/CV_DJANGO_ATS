@@ -13,9 +13,6 @@
         <form method="post">
             {% csrf_token %}
             <div class="mb-3">
-                {{ name_form.as_p }}
-            </div>
-            <div class="mb-3">
                 {{ job_desc_form.as_p }}
             </div>
             <button type="submit" class="btn btn-success">Generate CV</button>
